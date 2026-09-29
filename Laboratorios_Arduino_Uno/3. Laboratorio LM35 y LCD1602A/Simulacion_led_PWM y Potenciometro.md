@@ -3,7 +3,7 @@
 ## Simulación LM35
     
 - Simulador Tinkercad: https://www.tinkercad.com/things/0c6NDHWEdtw-lab-31?sharecode=D1sPu8S6jhzNYatLo-HoCUFaogWV8WOBg8EEAyMnsRw
-- Simulador Velxio: https://velxio.dev/project/0ba78579-ced7-4b16-b81c-15c4cc58b40
+- Simulador Velxio: https://velxio.dev/project/0ba78579-ced7-4b16-b81c-15c4cc58b402
 - Simulador Wokwi: https://wokwi.com/projects/475080279847165953
     	   
 ---
