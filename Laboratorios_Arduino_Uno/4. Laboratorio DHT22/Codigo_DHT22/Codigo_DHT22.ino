@@ -1,33 +1,49 @@
-#include "DHT.h"
+#include <LiquidCrystal.h>
+#include <DHT.h>
 
-#define SENSOR 2     // Pin DATA del DHT22 conectado al pin digital 2
+// Conservar las conexiones originales de la LCD
+LiquidCrystal lcd(7, 6, 5, 4, 3, 2);
 
-DHT dht(SENSOR, DHT22); // Inicialización del objeto DHT22
+// Usar el mismo pin DAT con el que ya funcionó el sensor
+#define DHTPIN A0
+#define DHTTYPE DHT22
 
-float TEMPERATURA;
-float HUMEDAD;
+DHT dht(DHTPIN, DHTTYPE);
 
 void setup() {
-  Serial.begin(9600);
-  dht.begin(); // Inicialización del sensor
+  lcd.begin(16, 2);
+  dht.begin();
+
+  lcd.setCursor(0, 0);
+  lcd.print("Iniciando DHT22");
+
+  delay(2000);
+  lcd.clear();
 }
 
 void loop() {
-  TEMPERATURA = dht.readTemperature();
-  HUMEDAD = dht.readHumidity();
+  float temperatura = dht.readTemperature();
+  float humedad = dht.readHumidity();
 
-  // Verificar si la lectura falló
-  if (isnan(TEMPERATURA) || isnan(HUMEDAD)) {
-    Serial.println("Error al leer el sensor DHT22");
-    delay(2000);
-    return;
+  if (isnan(temperatura) || isnan(humedad)) {
+    lcd.setCursor(0, 0);
+    lcd.print("Error sensor    ");
+    lcd.setCursor(0, 1);
+    lcd.print("Revise conexion ");
+  } else {
+    lcd.setCursor(0, 0);
+    lcd.print("Temp: ");
+    lcd.print(temperatura, 1);
+    lcd.write(byte(223));
+    lcd.print("C   ");
+
+    lcd.setCursor(0, 1);
+    lcd.print("Humedad: ");
+    lcd.print(humedad, 1);
+    lcd.print("%   ");
   }
 
-  Serial.print("Temperatura: ");
-  Serial.print(TEMPERATURA);
-  Serial.print(" °C  -  Humedad: ");
-  Serial.print(HUMEDAD);
-  Serial.println(" %");
-
-  delay(2000); // El DHT22 requiere 2 segundos entre lecturas
+  // El DHT22 necesita un intervalo entre lecturas
+  delay(2500);
+}
 }
